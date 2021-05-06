@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>{{ category.name }}</h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Product Code</th>
+        <th>In stock</th>
+        <th>Actions</th>
+    </tr>
+    {% for product in category.products %}
+        <tr>
+            <td>{{ product.name|capitalize }}</td>
+            <td>{{ product.priceIncludingVat|number_format(2, '.', ',') }}</td>
+            <td>{{ product.productcode|upper }}</td>
+            <td>{{ product.stockStatus }}</td>
+            <td>
+                <form method="post" action="{{ path('shopping_cart_add') }}">
+                    <input type="hidden" name="id" value="{{ product.id }}" />
+                    <input type="number" name="quantity" min="1" max="{{ product.quantity }}" value="1" />
+                    <input type="submit" value="Buy now!!!" />
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <th colspan="6">No products found</th>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+{% block title %}
+Category {{ category.name }}
+{% endblock %}
+

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ShoppingCartController!{% endblock %}
+
+{% block body %}
+    <h1>{{ cart.name }}</h1>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+        {% for line in cart.shoppingLines %}
+            <tr>
+                <td>{{ line.product.name|capitalize }}</td>
+                <td>{{ line.product.priceIncludingVat|number_format(2, ',', '.') }}</td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.price|number_format(2, ',', '.') }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <th colspan="6">No products found</th>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2"></td>
+            <th>Total:</th>
+            <td>{{ cart.totalprice|number_format(2, ',', '.') }}</td>
+        </tr>
+    </table>
+{% endblock %}
